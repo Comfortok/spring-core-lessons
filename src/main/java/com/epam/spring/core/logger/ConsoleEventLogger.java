@@ -6,6 +6,6 @@ public class ConsoleEventLogger implements IEventLogger {
 
     @Override
     public void logEvent(Event event) {
-        System.out.println(event);
+        System.out.println(event.toString());
     }
 }

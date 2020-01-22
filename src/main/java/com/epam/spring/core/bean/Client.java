@@ -28,4 +28,8 @@ public class Client {
         this.id = id;
         this.fullName = fullName;
     }
+
+    public void setGreeting(String gr) {
+        
+    }
 }

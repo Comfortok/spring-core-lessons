@@ -47,9 +47,8 @@ public class Event {
 
     @Override
     public String toString() {
-        return "Event id=" + id +
-                ", message='" + msg + '\'' +
-                ", date=" + dateFormat.format(date) +
-                '}';
+        return "Event id = " + id +
+                ", message = '" + msg + '\'' +
+                ", date = " + dateFormat.format(date);
     }
 }
