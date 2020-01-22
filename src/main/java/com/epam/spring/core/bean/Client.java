@@ -30,6 +30,6 @@ public class Client {
     }
 
     public void setGreeting(String gr) {
-        
+
     }
 }
