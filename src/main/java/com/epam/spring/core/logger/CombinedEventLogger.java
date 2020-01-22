@@ -1,16 +1,16 @@
 package com.epam.spring.core.logger;
 
 import com.epam.spring.core.bean.Event;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.Collection;
 
+@Component
 public class CombinedEventLogger implements IEventLogger {
-    private final Collection<IEventLogger> loggers;
 
-    public CombinedEventLogger(Collection<IEventLogger> loggers) {
-        super();
-        this.loggers = loggers;
-    }
+    @Resource(name = "combinedLoggers")
+    private Collection<IEventLogger> loggers;
 
     @Override
     public void logEvent(Event event) {
