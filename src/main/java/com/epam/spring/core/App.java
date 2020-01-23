@@ -3,17 +3,14 @@ package com.epam.spring.core;
 import com.epam.spring.core.bean.Client;
 import com.epam.spring.core.bean.Event;
 import com.epam.spring.core.bean.EventType;
-import com.epam.spring.core.logger.IEventLogger;
+import com.epam.spring.core.logger.EventLogger;
 import com.epam.spring.core.spring.AppConfig;
 import com.epam.spring.core.spring.LoggerConfig;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.xml.ws.ServiceMode;
 import java.util.Map;
 
 @Service
@@ -23,19 +20,19 @@ public class App {
     private Client client;
 
     @Resource(name = "defaultLogger")
-    private IEventLogger defaultLogger;
+    private EventLogger defaultLogger;
 
     @Resource(name = "loggerMap")
-    private Map<EventType, IEventLogger> loggers;
+    private Map<EventType, EventLogger> loggers;
 
     public App() {
     }
 
-    public App(Client client, IEventLogger eventLogger, Map<EventType, IEventLogger> loggers) {
-        super();
+    App(Client client, EventLogger defaultLogger,
+        Map<EventType, EventLogger> loggersMap) {
         this.client = client;
-        this.defaultLogger = eventLogger;
-        this.loggers = loggers;
+        this.defaultLogger = defaultLogger;
+        this.loggers = loggersMap;
     }
 
     public static void main(String[] args) {
@@ -63,12 +60,14 @@ public class App {
 
     private void logEvent(EventType eventType, Event event, String msg) {
         String message = msg.replaceAll(client.getId(), client.getFullName());
-        event.setMessage(message);
+        event.setMsg(message);
 
-        IEventLogger logger = loggers.get(eventType);
+        EventLogger logger = loggers.get(eventType);
         if (logger == null) {
             logger = defaultLogger;
         }
+
         logger.logEvent(event);
     }
+
 }

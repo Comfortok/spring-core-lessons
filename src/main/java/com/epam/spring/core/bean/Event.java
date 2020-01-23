@@ -30,39 +30,31 @@ public class Event {
     }
 
     public Event(Date date, DateFormat dateFormat) {
-        this.id = AUTO_ID.getAndIncrement();
+        this();
         this.date = date;
         this.dateFormat = dateFormat;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getMessage() {
-        return msg;
-    }
-
-    public void setMessage(String msg) {
-        this.msg = msg;
-    }
-
     public Date getDate() {
         return date;
     }
 
-    public DateFormat getDateFormat() {
-        return dateFormat;
-    }
-
     @Override
     public String toString() {
-        return "Event id = " + id +
-                ", message = '" + msg + '\'' +
-                ", date = " + dateFormat.format(date);
+        return "Event [id=" + id + ", msg=" + msg + ", date="
+                + (dateFormat != null ? dateFormat.format(date) : date) + "]";
     }
+
 }

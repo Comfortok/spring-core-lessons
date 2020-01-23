@@ -20,18 +20,28 @@ public class AwareBean implements ApplicationContextAware, BeanNameAware,
 
     @PostConstruct
     public void init() {
-        System.out.println(this.getClass().getSimpleName() + " > My name is '" + name + "'");
+        System.out.println(this.getClass().getSimpleName() + " > My name is '"
+                + name + "'");
         if (ctx != null) {
-            System.out.println(this.getClass().getSimpleName() + " > My context is " + ctx.getClass().toString());
+            System.out.println(this.getClass().getSimpleName()
+                    + " > My context is " + ctx.getClass().toString());
         } else {
-            System.out.println(this.getClass().getSimpleName() + " > Context is not set");
+            System.out.println(
+                    this.getClass().getSimpleName() + " > Context is not set");
         }
         if (eventPublisher != null) {
-            System.out.println(this.getClass().getSimpleName() + " > My eventPublisher is "
-                    + eventPublisher.getClass().toString());
+            System.out.println(
+                    this.getClass().getSimpleName() + " > My eventPublisher is "
+                            + eventPublisher.getClass().toString());
         } else {
-            System.out.println(this.getClass().getSimpleName() + " > EventPublisher is not set");
+            System.out.println(this.getClass().getSimpleName()
+                    + " > EventPublisher is not set");
         }
+    }
+
+    @Override
+    public void setApplicationEventPublisher(ApplicationEventPublisher ep) {
+        this.eventPublisher = ep;
     }
 
     @Override
@@ -40,12 +50,9 @@ public class AwareBean implements ApplicationContextAware, BeanNameAware,
     }
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.ctx = applicationContext;
+    public void setApplicationContext(ApplicationContext context)
+            throws BeansException {
+        this.ctx = context;
     }
 
-    @Override
-    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
-        this.eventPublisher = applicationEventPublisher;
-    }
 }

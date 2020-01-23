@@ -1,9 +1,7 @@
 package com.epam.spring.core.spring;
 
-import com.epam.spring.core.logger.CacheFileEventLogger;
-import com.epam.spring.core.logger.CombinedEventLogger;
-import com.epam.spring.core.logger.FileEventLogger;
-import com.epam.spring.core.logger.IEventLogger;
+import com.epam.spring.core.bean.EventType;
+import com.epam.spring.core.logger.EventLogger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
@@ -11,6 +9,8 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.EnumMap;
+import java.util.Map;
 
 @Configuration
 public class LoggerConfig {
@@ -21,27 +21,35 @@ public class LoggerConfig {
     }
 
     @Resource(name = "consoleEventLogger")
-    private IEventLogger consoleEventLogger;
+    private EventLogger consoleEventLogger;
 
     @Resource(name = "fileEventLogger")
-    private FileEventLogger fileEventLogger;
+    private EventLogger fileEventLogger;
 
     @Resource(name = "combinedEventLogger")
-    private CombinedEventLogger combinedEventLogger;
+    private EventLogger combinedEventLogger;
 
     @Resource(name = "cacheFileEventLogger")
-    private CacheFileEventLogger cacheEventLogger;
+    private EventLogger cacheEventLogger;
 
     @Bean
-    public Collection<IEventLogger> combinedLoggers() {
-        Collection<IEventLogger> loggers = new ArrayList<>(2);
+    public Collection<EventLogger> combinedLoggers() {
+        Collection<EventLogger> loggers = new ArrayList<EventLogger>(2);
         loggers.add(consoleEventLogger);
         loggers.add(fileEventLogger);
         return loggers;
     }
 
     @Bean
-    public IEventLogger defaultLogger() {
+    public Map<EventType, EventLogger> loggerMap() {
+        Map<EventType, EventLogger> map = new EnumMap<>(EventType.class);
+        map.put(EventType.INFO, consoleEventLogger);
+        map.put(EventType.ERROR, combinedEventLogger);
+        return map;
+    }
+
+    @Bean
+    public EventLogger defaultLogger() {
         return cacheEventLogger;
     }
 }

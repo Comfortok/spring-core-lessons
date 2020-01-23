@@ -8,8 +8,9 @@ import org.springframework.stereotype.Component;
 public class Monitor implements ApplicationListener<ApplicationEvent> {
 
     @Override
-    public void onApplicationEvent(ApplicationEvent applicationEvent) {
-        System.out.println(applicationEvent.getClass().getSimpleName() + " > "
-                + applicationEvent.getSource().toString());
-    }
+    public void onApplicationEvent(ApplicationEvent event) {
+        System.out.println(event.getClass().getSimpleName() + " > "
+                + event.getSource().toString());
+    };
+
 }

@@ -7,15 +7,16 @@ import javax.annotation.Resource;
 import java.util.Collection;
 
 @Component
-public class CombinedEventLogger implements IEventLogger {
+public class CombinedEventLogger implements EventLogger {
 
     @Resource(name = "combinedLoggers")
-    private Collection<IEventLogger> loggers;
+    private Collection<EventLogger> loggers;
 
     @Override
     public void logEvent(Event event) {
-        for (IEventLogger eventLogger : loggers) {
+        for (EventLogger eventLogger : loggers) {
             eventLogger.logEvent(event);
         }
     }
+
 }

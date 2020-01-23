@@ -32,7 +32,8 @@ public class AppConfig {
         Client client = new Client();
         client.setId(environment.getRequiredProperty("id"));
         client.setFullName(environment.getRequiredProperty("name"));
-        client.setGreeting(environment.getRequiredProperty("greeting"));
+        client.setGreeting(environment.getProperty("greeting"));
         return client;
     }
+
 }

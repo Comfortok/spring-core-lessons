@@ -10,24 +10,26 @@ import java.io.File;
 import java.io.IOException;
 
 @Component
-public class FileEventLogger implements IEventLogger {
+public class FileEventLogger implements EventLogger {
+
+    private File file;
 
     @Value("${events.file:target/events_log.txt}")
-    private String fileName;
-    private File file;
+    private String filename;
 
     public FileEventLogger() {
     }
 
-    public FileEventLogger(String fileName) {
-        this.fileName = fileName;
+    public FileEventLogger(String filename) {
+        this.filename = filename;
     }
 
     @PostConstruct
     public void init() throws IOException {
-        file = new File(fileName);
+        file = new File(filename);
         if (file.exists() && !file.canWrite()) {
-            throw new IllegalArgumentException("Can't write to file: " + fileName);
+            throw new IllegalArgumentException(
+                    "Can't write to file " + filename);
         } else if (!file.exists()) {
             file.createNewFile();
         }
@@ -36,9 +38,10 @@ public class FileEventLogger implements IEventLogger {
     @Override
     public void logEvent(Event event) {
         try {
-            FileUtils.writeStringToFile(file, event.toString(), true);
+            FileUtils.writeStringToFile(file, event.toString() + "\n", true);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 }
