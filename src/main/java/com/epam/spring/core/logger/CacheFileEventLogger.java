@@ -12,7 +12,6 @@ import java.util.List;
 @Component
 public class CacheFileEventLogger extends FileEventLogger {
 
-    // Use system property cache.size or 5 if property is not set
     @Value("${cache.size:5}")
     private int cacheSize;
 
@@ -50,6 +49,12 @@ public class CacheFileEventLogger extends FileEventLogger {
 
     private void writeEventsFromCache() {
         cache.stream().forEach(super::logEvent);
+    }
+
+    @Value("#{fileEventLogger.name + ' with cache'}")
+    @Override
+    protected void setName(String name) {
+        this.name = name;
     }
 
 }
